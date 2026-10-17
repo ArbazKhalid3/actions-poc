@@ -1,0 +1,9 @@
+name: Custom Action
+on: [push, workflow_dispatch]
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ArbazKhalid3/hello-js-action@v1.0.0
+        with:
+          who-to-greet: Arbaz
