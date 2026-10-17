@@ -6,4 +6,5 @@ jobs:
   hook:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Event type: ${{ github.event.action }}"
+      - name: Show event
+        run: echo "Event type is ${{ github.event.action }}"
