@@ -1,0 +1,26 @@
+name: Multi OS
+on: [push, workflow_dispatch]
+jobs:
+  ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - run: cat /etc/os-release
+  windows:
+    runs-on: windows-latest
+    steps:
+      - name: Install with Choco
+        run: choco install jq -y
+      - name: PowerShell info
+        run: |
+          Write-Host "Runner OS is $env:RUNNER_OS"
+          (Get-CimInstance Win32_OperatingSystem).Caption
+  macos:
+    runs-on: macos-latest
+    steps:
+      - name: OS version
+        run: sw_vers
+      - name: Compile Swift
+        run: |
+          echo 'print("Hello from Swift")' > hello.swift
+          swiftc hello.swift -o hello
+          ./hello
