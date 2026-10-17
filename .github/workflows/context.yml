@@ -1,0 +1,29 @@
+name: Context
+on: [push, workflow_dispatch]
+env:
+  APP_ENV: demo
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Actor: ${{ github.actor }}"
+          echo "Event: ${{ github.event_name }}"
+          echo "Runner OS: ${{ runner.os }}"
+          echo "Env: ${{ env.APP_ENV }}"
+      - name: Contains check
+        if: contains(github.ref, 'main')
+        run: echo "On main branch"
+      - name: Runs on success
+        if: success()
+        run: echo "Previous steps succeeded"
+      - name: Force a failure
+        id: fail
+        continue-on-error: true
+        run: exit 1
+      - name: Runs on failure
+        if: failure() || steps.fail.outcome == 'failure'
+        run: echo "Something failed"
+      - name: Always runs
+        if: always()
+        run: echo "Cleanup"
